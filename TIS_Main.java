@@ -1,7 +1,8 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.util.concurrent.TimeUnit;
 
-  public class TIS_Main {
+public class TIS_Main {
 
     private static String kontoNr = "-1";
     private static double price = 0;
@@ -62,6 +63,7 @@ private  void userInputs() {
 
       try {
 
+        System.out.print("Välj biljett: ");
         operation = op.nextInt();
 
         if (operation >= 1 && operation <= 5) {
@@ -83,6 +85,30 @@ private  void userInputs() {
   kontoNr = scanString.next();
 }
 
+  private void callBank(TIS_Main tis_main) {
+    System.out.print('\n' + "Kontaktar banken ");
+
+    for (int i = 0; i < 12; i++) {
+      try {
+        TimeUnit.MILLISECONDS.sleep(90);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+      System.out.print(".");
+    }
+
+    Payment objekt = TIS_Transaction.createPayment(kontoNr, price);
+
+    boolean isValid = objekt.isValid;
+    String bankName = objekt.nameOfBank;
+
+    if (isValid) {
+      System.out.println(" Betalningen godkändes!");
+      tis_main.printReceipt(bankName);
+    } else {
+      System.out.println(" Betalningen nekades!");
+    }
+  }
 
 // ---------------------------------------------------------------------------
 
@@ -91,18 +117,11 @@ private  void userInputs() {
     Scanner scan = new Scanner(System.in);
 
     tis_main.printTickets();
+    System.out.println();
+
     tis_main.userInputs();
 
-    Payment objekt = TIS_Transaction.createPayment(kontoNr, price);
-
-    boolean isValid = objekt.isValid;
-    String bankName = objekt.nameOfBank;
-
-    if (isValid) { // Om betalningen godkändes
-      tis_main.printReceipt(bankName);
-    } else {
-      System.out.println("Betalningen nekades.");
-    }
+    tis_main.callBank(tis_main);
 
   }
 }
