@@ -13,7 +13,7 @@ public class TIS_Main {
   public static final String ANSI_GREEN = "\u001B[32m";
   public static final String ANSI_WHITE = "\u001B[37m";
 
-  // Skriver ut rätt antal mellanslag så att biljett-kolumnerna blir raka
+  // Skriver ut rätt antal mellanslag så att kolumnerna blir raka
   private void addSpacing(String temp, int kolumnBredd) {
     int namnBredd = temp.length();
     int spaces = kolumnBredd - namnBredd;
